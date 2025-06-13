@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 
-const API_KEY = 'REEMPLAZA_CON_TU_API_KEY';
+const API_KEY = '95da69574700788bd87c2f4af971e0ea';
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 export function usePopularMovies() {

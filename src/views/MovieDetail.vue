@@ -37,7 +37,7 @@ const route = useRoute();
 const movie = ref({});
 const loading = ref(false);
 const error = ref('');
-const API_KEY = 'REEMPLAZA_CON_TU_API_KEY';
+const API_KEY = '95da69574700788bd87c2f4af971e0ea';
 
 const store = useFavoritesStore();
 const isFavorite = computed(() => store.isFavorite(movie.value.id));
