@@ -96,6 +96,96 @@ button:focus-visible {
   background-color: #1a1a1a !important;
 }
 
+/* NAVBAR RESPONSIVE (para header Vue) */
+.navbar-responsive {
+  position: relative;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.menu-icon {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 1rem;
+  z-index: 2100;
+}
+.menu-icon span {
+  height: 3px;
+  width: 25px;
+  background: white;
+  margin-bottom: 4px;
+  border-radius: 2px;
+  transition: all 0.3s;
+  display: block;
+}
+.menu-icon span:last-child {
+  margin-bottom: 0;
+}
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 64px; /* Altura del header Vuetify */
+  left: 0;
+  right: 0;
+  background-color: #1976d2;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  z-index: 4001;
+  transition: all 0.3s;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-30%);
+}
+.mobile-menu.open {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.2);
+  z-index: 4000;
+}
+.navbar-responsive, .v-app-bar {
+  z-index: 4002 !important;
+}
+
+@media (max-width: 900px) {
+  .nav-links {
+    display: none;
+  }
+  .menu-icon {
+    display: flex;
+  }
+  /* .mobile-menu y .mobile-menu.open ya están cubiertos arriba con position: fixed y z-index alto */
+}
+
+@media (max-width: 600px) {
+  .navbar-responsive {
+    padding: 0 0.5rem !important;
+  }
+  .v-toolbar-title {
+    font-size: 1.1rem !important;
+  }
+  .nav-links {
+    display: none !important;
+  }
+  .menu-icon {
+    display: flex !important;
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

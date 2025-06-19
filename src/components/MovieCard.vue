@@ -98,10 +98,8 @@ function toggleFavorite() {
 }
 @media (max-width: 600px) {
   .movie-card-minimal {
-    width: 120px;
-  }
-  .movie-card-img {
-    height: 180px;
+    min-width: 120px;
+    height: 250px;
   }
   .movie-title {
     font-size: 0.85rem;

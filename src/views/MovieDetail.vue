@@ -190,5 +190,8 @@ onMounted(fetchMovie);
     height: 340px;
     margin: 0 auto;
   }
+  .d-flex{
+      display: block !important;
+  }
 }
 </style>
