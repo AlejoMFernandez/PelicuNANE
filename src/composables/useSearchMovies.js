@@ -13,9 +13,23 @@ export function useSearchMovies() {
     loading.value = true;
     error.value = '';
     try {
-      let url = `${BASE_URL}/search/movie?api_key=${API_KEY}&language=es-ES&query=${encodeURIComponent(query)}&page=${page}`;
-      if (genre) url += `&with_genres=${genre}`;
-      if (certification) url += `&certification_country=AR&certification=${certification}`;
+      let url = '';
+      const params = [];
+      params.push(`api_key=${API_KEY}`);
+      params.push('language=es-ES');
+      params.push(`page=${page}`);
+      if (query && query.trim() !== '') {
+        // Solo búsqueda por texto, sin filtros
+        url = `${BASE_URL}/search/movie?${params.join('&')}&query=${encodeURIComponent(query)}`;
+      } else {
+        // Sin texto, usar filtros
+        if (genre) params.push(`with_genres=${genre}`);
+        if (certification) {
+          params.push('certification_country=US');
+          params.push(`certification=${certification}`);
+        }
+        url = `${BASE_URL}/discover/movie?${params.join('&')}`;
+      }
       const res = await fetch(url);
       if (!res.ok) throw new Error('No se pudieron cargar los resultados');
       const data = await res.json();

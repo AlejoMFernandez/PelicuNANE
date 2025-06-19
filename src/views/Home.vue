@@ -1,39 +1,94 @@
 <template>
-  <v-container class="py-6">
-    <v-row>
-      <v-col cols="12">
-        <h1 class="text-h4 font-weight-bold mb-4">Películas Populares</h1>
+  <v-container fluid class="home-bg pa-0">
+    <MovieCarousel
+      title="Populares"
+      :movies="popularMovies"
+      v-if="!loadingPopular && !errorPopular"
+    />
+    <MovieCarousel
+      title="Mejor Valoradas"
+      :movies="topRatedMovies"
+      v-if="!loadingTopRated && !errorTopRated"
+    />
+    <MovieCarousel
+      title="Estrenos"
+      :movies="upcomingMovies"
+      v-if="!loadingUpcoming && !errorUpcoming"
+    />
+    <!-- Puedes agregar más carrouseles por género si lo deseas -->
+    <v-row v-if="loadingPopular || loadingTopRated || loadingUpcoming">
+      <v-col cols="12" class="text-center">
+        <v-progress-circular indeterminate color="primary" size="48" />
       </v-col>
     </v-row>
-    <v-row>
-      <template v-if="loading">
-        <v-col cols="12" class="text-center">
-          <v-progress-circular indeterminate color="primary" size="48" />
-        </v-col>
-      </template>
-      <template v-else-if="error">
-        <v-col cols="12">
-          <v-alert type="error">{{ error }}</v-alert>
-        </v-col>
-      </template>
-      <template v-else>
-        <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie" />
-      </template>
-    </v-row>
-    <v-row justify="center" class="mt-6">
-      <v-pagination v-model="page" :length="totalPages" color="primary" />
+    <v-row v-if="errorPopular || errorTopRated || errorUpcoming">
+      <v-col cols="12">
+        <v-alert type="error">{{ errorPopular || errorTopRated || errorUpcoming }}</v-alert>
+      </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue';
-import MovieCard from '../components/MovieCard.vue';
+import { ref, onMounted } from 'vue';
+import MovieCarousel from '../components/MovieCarousel.vue';
 import { usePopularMovies } from '../composables/usePopularMovies';
 
-const page = ref(1);
-const { movies, totalPages, loading, error, fetchMovies } = usePopularMovies();
+const { movies: popularMovies, loading: loadingPopular, error: errorPopular, fetchMovies: fetchPopular } = usePopularMovies();
 
-watch(page, (val) => fetchMovies(val));
-onMounted(() => fetchMovies(page.value));
+// Fetch top rated
+const topRatedMovies = ref([]);
+const loadingTopRated = ref(true);
+const errorTopRated = ref('');
+
+// Fetch upcoming
+const upcomingMovies = ref([]);
+const loadingUpcoming = ref(true);
+const errorUpcoming = ref('');
+
+const API_KEY = '95da69574700788bd87c2f4af971e0ea';
+const BASE_URL = 'https://api.themoviedb.org/3';
+
+async function fetchTopRated() {
+  loadingTopRated.value = true;
+  errorTopRated.value = '';
+  try {
+    const res = await fetch(`${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=es-ES&page=1`);
+    if (!res.ok) throw new Error('No se pudieron cargar las mejor valoradas');
+    const data = await res.json();
+    topRatedMovies.value = data.results;
+  } catch (e) {
+    errorTopRated.value = e.message;
+  } finally {
+    loadingTopRated.value = false;
+  }
+}
+
+async function fetchUpcoming() {
+  loadingUpcoming.value = true;
+  errorUpcoming.value = '';
+  try {
+    const res = await fetch(`${BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=es-ES&page=1`);
+    if (!res.ok) throw new Error('No se pudieron cargar los estrenos');
+    const data = await res.json();
+    upcomingMovies.value = data.results;
+  } catch (e) {
+    errorUpcoming.value = e.message;
+  } finally {
+    loadingUpcoming.value = false;
+  }
+}
+
+onMounted(() => {
+  fetchPopular(1);
+  fetchTopRated();
+  fetchUpcoming();
+});
 </script>
+
+<style scoped>
+.home-bg {
+  min-height: 100vh;
+  padding-top: 0;
+}
+</style>

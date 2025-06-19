@@ -25,7 +25,14 @@
         </v-col>
       </template>
       <template v-else>
-        <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie" />
+        <template v-if="movies.length === 0">
+          <v-col cols="12">
+            <v-alert type="info">No hay resultados que coincidan con tu búsqueda o filtros.</v-alert>
+          </v-col>
+        </template>
+        <template v-else>
+          <MovieCard v-for="movie in movies" :key="movie.id" :movie="movie" class="search-movie-col" />
+        </template>
       </template>
     </v-row>
     <v-row justify="center" class="mt-6">
@@ -67,3 +74,27 @@ onMounted(() => {
   fetchMovies(query.value, genre.value, certification.value, page.value);
 });
 </script>
+
+<style scoped>
+.search-movie-col {
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.v-row {
+  gap: 1rem 0.5rem;
+  justify-content: flex-start;
+}
+@media (max-width: 600px) {
+  .search-movie-col {
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+  }
+}
+</style>

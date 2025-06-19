@@ -13,6 +13,33 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* HEADER STYLES */
+header {
+  top: 0px !important;
+  z-index: 1004 !important;
+  transform: translateY(0px) !important;
+  position: fixed !important;
+  left: 0px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding-inline: 2rem !important;
+  display: flex !important;
+  align-items: center !important;
+}
+.v-toolbar__content {
+  height: 64px !important;
+  max-width: 1600px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  overflow: hidden !important;
+  align-items: center !important;
+  flex: 0 0 auto !important;
+  position: relative !important;
+  transition: inherit !important;
+}
+.v-toolbar-title{
+  text-align: left;
+}
 a {
   font-weight: 500;
   color: #646cff;
@@ -28,6 +55,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #1a1a1a !important;
 }
 
 h1 {
@@ -53,16 +81,19 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-
+.v-application{
+  background-color: #1a1a1a !important;
+}
 .card {
   padding: 2em;
 }
 
 #app {
-  max-width: 1280px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: #1a1a1a !important;
 }
 
 @media (prefers-color-scheme: light) {

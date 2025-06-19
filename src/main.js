@@ -7,6 +7,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import App from './App.vue';
 import 'vuetify/styles';
 import './style.css';
+import { aliases, mdi } from 'vuetify/iconsets/mdi';
+import '@mdi/font/css/materialdesignicons.css';
 
 import Home from './views/Home.vue';
 import Search from './views/Search.vue';
@@ -18,6 +20,11 @@ const vuetify = createVuetify({
   directives,
   theme: {
     defaultTheme: 'dark',
+  },
+  icons: {
+    defaultSet: 'mdi',
+    aliases,
+    sets: { mdi },
   },
 });
 
